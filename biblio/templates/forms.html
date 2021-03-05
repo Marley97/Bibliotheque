@@ -6,14 +6,54 @@
 </head>
 <body>
 	{% if emplacement_form %}
-	<form method="post" action="{% url 'emplacement' %}" class="form-signin"enctype="multipart/form-data">
+		<form method="post" action="{% url 'emplacement' %}" class="form-signin"enctype="multipart/form-data">
 
-	{% csrf_token %}
+		{% csrf_token %}
 
-    {{emplacement_form.as_p}}
-    <input type="submit" value="add">	
-	</form>
+	    {{emplacement_form.as_p}}
+	    <input type="submit" value="add">	
+		</form>
 	{% endif %}
+
+	{% if auteur_form %}
+		<form method="post" action="{% url 'auteur' %}" class="form-signin"enctype="multipart/form-data">
+
+		{% csrf_token %}
+
+	    {{auteur_form.as_p}}
+	    <input type="submit" value="add">	
+		</form>
+	{% endif %}
+
+	{% if livre_form %}
+		<form method="post" action="{% url 'livre' %}" class="form-signin"enctype="multipart/form-data">
+
+		{% csrf_token %}
+
+	    {{livre_form.as_p}}
+	    <input type="submit" value="add">	
+		</form>
+	{% endif %}
+
+	{% if lecteur_form %}
+		<form method="post" action="{% url 'livre' %}" class="form-signin"enctype="multipart/form-data">
+
+		{% csrf_token %}
+
+	    {{lecteur_form.as_p}}
+	    <input type="submit" value="add">	
+		</form>
+	{% endif %}
+
+	{% if modifier_livre %}
+		<form method="post" action="{% url 'updateL' book.id %}" class="form-signin" enctype="multipart/form-data">
+
+			{% csrf_token %}
+			{{modifier_livre}}
+			<button  name="submit" type="submit">Enregistrer</button>
+        </form>
+        {% endif %}
+			
 
 </body>
 </html>
