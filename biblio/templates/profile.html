@@ -2,9 +2,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+	<title>{% block title %}Acceuil{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href=" {% static 'bootstrap/css/bootstrap.css' %} ">
+	<link rel="stylesheet" type="text/css" href=" {% static 'fontawesome-free-5.14.0-web/css/all.min.css' %}">
 </head>
 <body>
-	<strong>{{ text }}</strong>
+	
+
+	<ul class="pagination" style="margin:40% 10%">
+	  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+	  <li class="page-item"><a class="page-link" href="#">1</a></li>
+	  <li class="page-item"><a class="page-link" href="#">2</a></li>
+	  <li class="page-item"><a class="page-link" href="#">3</a></li>
+	  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+	</ul>
 </body>
 </html>

@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 class Bibliothecaire(models.Model):
 
 	user = models.ForeignKey(User,on_delete = models.CASCADE)
-	date_naissance = models.DateField()
+	date_naissance = models.DateField(default=datetime.now)
 	matricule = models.CharField(max_length=10)
 
 class Auteur(models.Model):
@@ -27,13 +28,13 @@ class Livre(models.Model):
 
 	isbn = models.IntegerField()
 	titre =models.CharField(max_length=20)  
-	auteur = models.ForeignKey(Auteur, on_delete = models.CASCADE)
-	emplacement = models.ForeignKey(Emplacement, on_delete=models.CASCADE)
+	auteur = models.ForeignKey('Auteur', on_delete = models.CASCADE)
+	emplacement = models.ForeignKey('Emplacement', on_delete=models.CASCADE)
 	annee_publication = models.DateField()
 	nombre_exemplaire = models.IntegerField()
 
 	def __str__(self):
-		return f" ISBN : {self.isbn} Title : {self.titre} Auteur : {self.auteur} Emplacement : {self.emplacemnt} Annee_Publication : {self.annee_publication} Nombre_Exemplaire{self.nombre_exemplaire}  "
+		return f" ISBN : {self.isbn} Title : {self.titre} Auteur : {self.auteur} Emplacement : {self.emplacement} Annee_Publication : {self.annee_publication} Nombre_Exemplaire{self.nombre_exemplaire}  "
 		
 class Lecteur(models.Model):
 	
@@ -48,9 +49,9 @@ class Lecteur(models.Model):
 
 class Actions(models.Model):
 
-	bibliothecaire = models.ForeignKey(Bibliothecaire, on_delete=models.CASCADE)
-	lecteur = models.ForeignKey(Lecteur, on_delete=models.CASCADE)  
-	livre=models.ForeignKey(Livre,on_delete=models.CASCADE)
+	bibliothecaire = models.ForeignKey('Bibliothecaire', on_delete=models.CASCADE)
+	lecteur = models.ForeignKey('Lecteur', on_delete=models.CASCADE)  
+	livre=models.ForeignKey('Livre',on_delete=models.CASCADE)
 	statut=models.BooleanField(default=False)
 
 	def __str__(self):

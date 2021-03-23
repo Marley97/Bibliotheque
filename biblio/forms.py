@@ -1,13 +1,14 @@
 from django import forms
 from .models import *
-class BibliothecaireForms(forms.ModelForm):
+class BibliothecaireForms(forms.Form):
 
 	username = forms.CharField(
 		label='Nom Utilisateur',
 		widget=forms.TextInput(
 			attrs={
 				'class':'form-control',
-				'placeholder':'votre nom Utilisateur'
+				'placeholder':'votre nom Utilisateur',
+				'required.':'False',
 
 				}
 			))
@@ -18,7 +19,7 @@ class BibliothecaireForms(forms.ModelForm):
 			attrs={
 				'class':'form-control',
 				'type':'password',
-				'placeholder':'votre mot de passe'
+				'placeholder':'votre mot de passe',
 
 
 				}
@@ -55,18 +56,6 @@ class BibliothecaireForms(forms.ModelForm):
 			)
 
 		)
-
-	date_naissance = forms.IntegerField(
-		label = 'Age',
-		widget = forms.NumberInput(
-			attrs ={ 
-				'placeholder':'Votre Age',
-				'class':'form-control'
-				}
-			)
-
-		)
-
 	matricule = forms.CharField(
 		label = 'Matricule',
 		widget = forms.TextInput(
@@ -78,7 +67,7 @@ class BibliothecaireForms(forms.ModelForm):
 
 		)
 
-class AuteurForms(forms.ModelForm):
+class AuteurForms(forms.Form):
 
 	nom = forms.CharField(
 		label = 'Nom',
@@ -106,7 +95,7 @@ class AuteurForms(forms.ModelForm):
 
 	
 
-class EmplacementForms(forms.ModelForm):
+class EmplacementForms(forms.Form):
 
 	etagere = forms.IntegerField(
 		label='Etagere Numero',
@@ -125,7 +114,7 @@ class EmplacementForms(forms.ModelForm):
 		model = Emplacement
 		fields = '__all__'
 
-class LivreForms(forms.ModelForm):
+class LivreForms(forms.Form):
 
 	isbn = forms.IntegerField(
 		label='NumeroLivre',
@@ -191,7 +180,7 @@ class LivreForms(forms.ModelForm):
 		model = Livre
 		fields = '__all__'
 		
-class LecteurForms(forms.ModelForm):
+class LecteurForms(forms.Form):
 
 	numero_carte = forms.IntegerField(
 		label = 'Numero_Carte',
@@ -250,11 +239,11 @@ class LecteurForms(forms.ModelForm):
 		model = Lecteur
 		fields = '__all__'
 
-class ActionsForms(forms.ModelForm):
+class ActionsForms(forms.Form):
 
 	bibliothecaire = forms.ModelChoiceField(
-		label='',
-		queryset = Bibliothecaire.objects.all(),
+		label='Bibliothecaire',
+		queryset = Bibliothecaire.objects.get(user=request.user),
 		widget=forms.Select(
 			attrs={
 				'class':'form-control',
@@ -263,7 +252,7 @@ class ActionsForms(forms.ModelForm):
 			))
 
 	lecteur = forms.ModelChoiceField(
-		label='',
+		label='Lecteur',
 		queryset = Lecteur.objects.all(),
 		widget=forms.Select(
 			attrs={
@@ -274,7 +263,7 @@ class ActionsForms(forms.ModelForm):
 
 
 	livre = forms.ModelChoiceField(
-		label='',
+		label='Livre',
 		queryset = Livre.objects.all(),
 		widget=forms.Select(
 			attrs={
@@ -284,13 +273,35 @@ class ActionsForms(forms.ModelForm):
 			))
 
 	statut = forms.TypedChoiceField(
-		label = 'Fonction',
+		label = 'Statut',
 		choices=((0, 'False'), (1, 'True')),
                    widget=forms.RadioSelect)
 
 	class Meta:
 		model = Actions
 		fields = '__all__'
+
+class ConnexionForm(forms.Form):
+	username = forms.CharField(
+		label = 'Username',
+		widget=forms.TextInput(
+			attrs={
+				'placeholder':'username',
+				'type':'username',
+				'class':'form-control'
+			}
+
+		))
+
+	password = forms.CharField(
+		label = 'Password',
+		widget = forms.PasswordInput(
+			attrs ={ 
+				'placeholder':'password',
+				'type':'password',
+				'class':'form-control'
+				}
+			))
 
 
 

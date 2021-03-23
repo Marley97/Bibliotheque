@@ -1,12 +1,31 @@
 from django.shortcuts import render,redirect
+from django.contrib.auth import authenticate,logout,login
+from datetime import datetime
 from .models import*
 from .forms import*
 
 
 # Create your views here.
-def profil(request):
+def profil_view(request):
 	text = "mon profile"
 	return render(request,'profile.html',locals())
+def action(request):
+	action_form = ActionsForms(request.POST or None)
+	if(action_form.is_valid()):
+		exempl = action_form.save(commit=False)
+		livr = Livre.objects.get(id=exempl.livre.id)
+		if exempl.statut : 
+			if livr.nombre_exemplaire > 0:
+				livr.nombre_exemplaire-=1
+				livr.save()
+				exempl.save()
+		else:
+			livr.nombre_exemplaire+=1
+			exempl.statut=False
+			exempl.save()
+			livr.save()
+	action_form = ActionsForms()
+	return render(request,"forms.html",locals())
 
 def auteur(request):
 	auteur_form = AuteurForms(request.POST or None)
@@ -46,9 +65,19 @@ def listes(request):
 	ibitabu = Livre.objects.all()
 	return render(request, "listes.html", locals())
 
+def livreemprunte(request):
+	emprunte_form=True
+	emprunte=Actions.objects.filter(statut=True)
+	return render(request,"listes.html",locals())
+
+def livreremis(request):
+	remis_form=True
+	remis=Actions.objects.filter(statut=False)
+	return render(request,"listes.html",locals())
+
 def modifier_livre(request,id):
 	book = Livre.objects.get(id=id)
-	modifier_forms = LivreForms(request.POST or None,instance=book)
+	modifier_forms = LivreForms(request.POST, instance=book)
 
 	if(request.method == 'POST'):
 		if(modifier_forms.is_valid()):
@@ -61,6 +90,62 @@ def delete_livre(request,id):
 	book= Livre.objects.get(id=id)
 	book.delete()
 	return redirect('listeL')
+
+def registerbibliothecaire(request):
+	profile_form = BibliothecaireForms(request.POST or None)
+	if(request.method == 'POST'):
+		if(profile_form.is_valid()):
+			username=profile_form.cleaned_data['username']
+			password=profile_form.cleaned_data['password'] 
+			password1=profile_form.cleaned_data['password1']
+			nom=profile_form.cleaned_data['nom']
+			prenom=profile_form.cleaned_data['prenom']
+			matricule=profile_form.cleaned_data['matricule']
+			
+			if(password == password1):
+				user = User.objects.create_user(username = username,password = password)
+				user.first_name = nom
+				user.last_name = prenom
+				user.save()
+				profile=Bibliothecaire(user = user,matricule = matricule)
+				profile.save()
+				if user:
+					login(request,user)
+					return redirect(profil_view)
+				else:
+					return redirect(connexion)
+			else:
+				profile_form = BibliothecaireForms(request.FILES)
+	profile_form = BibliothecaireForms(request.FILES)
+	return render(request,'forms.html',locals())
+
+def connexion(request):
+	connexion = ConnexionForm(request.POST)
+	if(request.method == 'POST'):
+		if(connexion.is_valid()):
+			username=connexion.cleaned_data['username']
+			password=connexion.cleaned_data['password']
+
+			user=authenticate(username = username,password = password)
+			if user:
+				login(request,user)
+				return redirect(profil_view)
+			else:
+				connexion = ConnexionForm()
+	connexion = ConnexionForm()
+	return render(request,'forms.html',locals())
+
+def deconnexion(request):
+	logout(request)
+	return redirect(connexion)
+
+
+
+
+
+
+
+	
 
 
 
