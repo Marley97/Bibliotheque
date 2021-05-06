@@ -3,18 +3,92 @@
 <html>
 <head>
 	<title>{% block title %}Acceuil{% endblock %}</title>
-	<link rel="stylesheet" type="text/css" href=" {% static 'bootstrap/css/bootstrap.css' %} ">
+	<link rel="stylesheet" type="text/css" href=" {% static 'css/style.css' %} ">
 	<link rel="stylesheet" type="text/css" href=" {% static 'fontawesome-free-5.14.0-web/css/all.min.css' %}">
 </head>
 <body>
-	
-
-	<ul class="pagination" style="margin:40% 10%">
-	  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-	  <li class="page-item"><a class="page-link" href="#">1</a></li>
-	  <li class="page-item"><a class="page-link" href="#">2</a></li>
-	  <li class="page-item"><a class="page-link" href="#">3</a></li>
-	  <li class="page-item"><a class="page-link" href="#">Next</a></li>
-	</ul>
+	<div class="page-wrapper">
+		<div class="wrapper">
+			<div class="header">
+				<div class="row">
+					<img class="logo" src="{% static "img/logo.png" %}">
+					<form method="POST">
+						{% csrf_token %}
+						{{search_form.search}}
+						<button name="s" type="search"><i class="fa fa-search"></i></button>
+					</form>
+					<div class="right">
+						<i class="fa fa-shopping-cart"></i>
+						<ul>
+							<li><a href="">Wish List</a></li>
+							<li><a href="login.html">Log In</a></li>
+							<li><a href="">Sign Up</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="nav">
+				<div class="row">
+					<a href="{% url 'profile' %}"><span>Home</span></a>
+					<span>All Books</span>
+					<span>Category</span>
+					<span>Writer</span>
+					<span>Publisher</span>
+					<span>Gallery</span>
+					<span>PDF Books</span>
+					<span>Blog</span>
+					<a href="{% url 'registerbibli' %}"><span>Account</span></a>
+					<span>Contact</span>
+				</div>
+			</div class="nav">
+			<div class="container">
+				<div class="row">
+					<div class="col-2">
+						<h1>
+							Good books don't give up <br>
+							all their secrets at once.
+						</h1>
+						<p>
+							A small river named Duden flows by their place and suppliers <br>
+							it with the necessary regelialia.
+						</p>
+						<a href="{% url 'livre' %}" class="btn-link">Create Now</a>
+					</div>
+					<div class="col-2">
+						<img src="{% static "img/unnamed.png" %}">
+					</div>
+				</div>
+			</div>
+			<div class="category">
+				<h3 class="title">Books Category</h3>
+				<div class="row">
+					<div class="card">
+						<img class="card-img" src=" {% static "img/001.jpg" %} ">
+						<p class="card-text">Art & Photography</p>
+					</div>
+					<div class="card">
+						<img class="card-img" src=" {% static "img/002.jpg" %}">
+						<p class="card-text">Children Books</p>
+					</div>
+					<div class="card">
+						<img class="card-img" src=" {% static "img/003.jpg" %}">
+						<p class="card-text">Claft & </p>
+					</div>
+					<div class="card">
+						<img class="card-img" src=" {% static "img/004.jpg" %}">
+						<p class="card-text">Crime & Thriller</p>
+					</div>
+					<div class="card">
+						<img class="card-img" src=" {% static "img/005.png" %}">
+						<p class="card-text">Horror Books</p>
+					</div>
+					<div class="card">
+						<img class="card-img" src=" {% static "img/006.jpg" %}">
+						<p class="card-text">Others Books</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

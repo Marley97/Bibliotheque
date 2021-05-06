@@ -16,6 +16,7 @@ urlpatterns=[
 	path('action/',views.action,name='actionbibli'),
 	path('livreemprunte/',views.livreemprunte,name='livreE'),
 	path('livreremis/',views.livreremis,name='livreR'),
+	path('result/<str:queryset>',views.result,name='result'),
  	path('connexion/',views.connexion,name='login'),
     path('deconnexion/',views.deconnexion,name='logout'),
 	

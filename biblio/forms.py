@@ -114,7 +114,7 @@ class EmplacementForms(forms.Form):
 		model = Emplacement
 		fields = '__all__'
 
-class LivreForms(forms.Form):
+class LivreForms(forms.ModelForm):
 
 	isbn = forms.IntegerField(
 		label='NumeroLivre',
@@ -243,7 +243,7 @@ class ActionsForms(forms.Form):
 
 	bibliothecaire = forms.ModelChoiceField(
 		label='Bibliothecaire',
-		queryset = Bibliothecaire.objects.get(user=request.user),
+		queryset = Bibliothecaire.objects.all(),
 		widget=forms.Select(
 			attrs={
 				'class':'form-control',
@@ -302,6 +302,15 @@ class ConnexionForm(forms.Form):
 				'class':'form-control'
 				}
 			))
+
+class SearchForm(forms.Form):
+	search = forms.CharField(
+		widget=forms.TextInput(
+			attrs={
+				'name':'q',
+				'type':'search',
+				'placeholder':'search by book name',
+			}))
 
 
 

@@ -5,6 +5,38 @@
 	<title></title>
 </head>
 <body>
+	<div class="wrapper">
+			<div class="header">
+				<div class="row">
+					<img class="logo" src="{% static "img/logo.png" %}">
+					<form>
+						<input type="search" name="" placeholder="search by book name">
+						<button type="search"><i class="fa fa-search"></i></button>
+					</form>
+					<div class="right">
+						<i class="fa fa-shopping-cart"></i>
+						<ul>
+							<li><a href="">Wish List</a></li>
+							<li><a href="login.html">Log In</a></li>
+							<li><a href="">Sign Up</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="nav">
+				<div class="row">
+					<a href="{% url 'profile' %}"><span>Home</span></a>
+					<span>All Books</span>
+					<span>Category</span>
+					<span>Writer</span>
+					<span>Publisher</span>
+					<span>Gallery</span>
+					<span>PDF Books</span>
+					<span>Blog</span>
+					<a href="{% url 'registerbibli' %}"><span>Account</span></a>
+					<span>Contact</span>
+				</div>
+			</div class="nav">
 	{% if emplacement_form %}
 		<form method="post" action="{% url 'emplacement' %}" class="form-signin"enctype="multipart/form-data">
 

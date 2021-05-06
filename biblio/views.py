@@ -6,9 +6,23 @@ from .forms import*
 
 
 # Create your views here.
+def result(request,queryset):
+	obj = Livre.objects.filter(titre__contains = queryset)
+	return render(request,"result.html",locals())
+
 def profil_view(request):
-	text = "mon profile"
+	search_form = SearchForm(request.POST or None)
+	if 'q' in request.GET:
+		q = request.GET['q']
+		livres = Livre.objects.filter(titre = q)
+	else:
+		livres = Livre.objects.all()
+	if 's' in request.POST:
+		if(search_form.is_valid()):
+			s = search_form.cleaned_data['search']
+			return redirect(result,s)
 	return render(request,'profile.html',locals())
+
 def action(request):
 	action_form = ActionsForms(request.POST or None)
 	if(action_form.is_valid()):
@@ -77,7 +91,7 @@ def livreremis(request):
 
 def modifier_livre(request,id):
 	book = Livre.objects.get(id=id)
-	modifier_forms = LivreForms(request.POST, instance=book)
+	modifier_forms = LivreForms(request.POST or None, instance=book)
 
 	if(request.method == 'POST'):
 		if(modifier_forms.is_valid()):
