@@ -3,12 +3,16 @@ from django.contrib.auth import authenticate,logout,login
 from datetime import datetime
 from .models import*
 from .forms import*
+from  django.http import HttpResponse
 
 
 # Create your views here.
 def result(request,queryset):
 	obj = Livre.objects.filter(titre__contains = queryset)
-	return render(request,"result.html",locals())
+	if obj:
+		return render(request,"result.html",locals())
+	else:
+		return  HttpResponse('Livre introuvable')
 
 def profil_view(request):
 	search_form = SearchForm(request.POST or None)
